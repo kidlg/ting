@@ -13,6 +13,7 @@ namespace Ting
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("sounds/{*pathInfo}");
+            routes.IgnoreRoute("default.aspx");
 
             routes.MapRoute(
                 name: "Default",

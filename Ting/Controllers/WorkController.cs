@@ -58,6 +58,16 @@ namespace Ting.Controllers
             return dto;
         }
 
+        [ApiDoc("根据分类获取热门作品列表（分页）")]
+        [HttpGet]
+        public CommonModelDTO<Work> WorkByHot(int pagesize = 10, int pageindex = 1)
+        {
+            int count = db.Works.Count();
+            var list = db.Works.OrderByDescending(x => x.Hot).Skip((pageindex - 1) * pagesize).Take(pagesize).ToList();
+            var dto = new CommonModelDTO<Work>(list, count, pagesize, pageindex);
+            return dto;
+        }
+
         // PUT api/Work/5
         [ApiDoc("根据ID修改作品内容")]
         [ApiParameterDoc("id", "作品ID")]
@@ -89,19 +99,14 @@ namespace Ting.Controllers
         [ApiParameterDoc("category", "作品实体")]
         public HttpResponseMessage PostWork(Work work)
         {
-            if (ModelState.IsValid)
-            {
+         
                 db.Works.Add(work);
                 db.SaveChanges();
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, work);
                 response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = work.Id }));
                 return response;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
+           
         }
 
         // DELETE api/Work/5

@@ -83,11 +83,12 @@ namespace Ting.Controllers
             return response;
 
         }
-        [ApiDoc("用户登录,返回用户ID，")]
+        [ApiDoc("用户登录,返回用户信息")]
         [ApiParameterDoc("name", "用户名")]
-        public HttpResponseMessage PostLogin(string name,string password)
+        [HttpPost]
+        public HttpResponseMessage Login(string n,string pwd)
         {
-            var user = db.Users.Where(x => x.Name.Equals(name) && x.Password.Equals(password)).FirstOrDefault();
+            var user = db.Users.Where(x => x.Name.Equals(n) && x.Password.Equals(pwd)).FirstOrDefault();
             if (user!=null)
             {
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, user);

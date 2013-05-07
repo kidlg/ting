@@ -98,27 +98,27 @@ namespace Ting.Controllers
         // POST api/Section
          [ApiDoc("创建剧集")]
          [ApiParameterDoc("category", "剧集实体")]
-        //public HttpResponseMessage PostSection(Section section)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
+         //public HttpResponseMessage PostSection(Section section)
+         //{
+         //    if (ModelState.IsValid)
+         //    {
 
-     
 
-        //        db.Sections.Add(section);
-        //        db.SaveChanges();
 
-        //        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, section);
-        //        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = section.Id }));
-        //        return response;
-        //    }
-        //    else
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.BadRequest);
-        //    }
-        //}
-        [HttpPost]
-        [ActionName("Upload")]
+         //        db.Sections.Add(section);
+         //        db.SaveChanges();
+
+         //        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, section);
+         //        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = section.Id }));
+         //        return response;
+         //    }
+         //    else
+         //    {
+         //        return Request.CreateResponse(HttpStatusCode.BadRequest);
+         //    }
+         //}
+         [HttpPost]
+         //[ActionName("Upload")]
          public Task<HttpResponseMessage> Upload()
          {
              if (!Request.Content.IsMimeMultipartContent())
@@ -129,27 +129,35 @@ namespace Ting.Controllers
              string urlHost = HttpContext.Current.Request.Url.Host;
              var sectionPath = "";
              var provider = new MultipartFormDataStreamProvider(root);
+            
 
-                 // 读取表单数据
-                 var task = Request.Content.ReadAsMultipartAsync(provider).ContinueWith<HttpResponseMessage>(
-                     t =>
+             
+
+             // 读取表单数据
+             var task = Request.Content.ReadAsMultipartAsync(provider).ContinueWith<HttpResponseMessage>(
+                 t =>
+                 {
+                     if (t.IsFaulted || t.IsCanceled)
                      {
-                         if (t.IsFaulted || t.IsCanceled)
-                         {
-                             Request.CreateErrorResponse(HttpStatusCode.InternalServerError, t.Exception);
-                         }
-                         foreach (MultipartFileData file in provider.FileData)
-                         {
-                             var ext = file;
-                             var filename = Path.GetFileName(System.Guid.NewGuid()+".mp3");
-                             File.Move(file.LocalFileName,Path.Combine(root,filename));
-                             sectionPath = @"http://"+urlHost + "/Sounds/" + filename;
-                         }
-                         return Request.CreateResponse(HttpStatusCode.OK, sectionPath);
-                     });
+                         Request.CreateErrorResponse(HttpStatusCode.InternalServerError, t.Exception);
+                     }
+                     foreach (MultipartFormDataContent item in provider.FormData)
+                     {
 
+                     }
+                     foreach (MultipartFileData file in provider.FileData)
+                     {
+                         var ext = file;
+                         var filename = Path.GetFileName(System.Guid.NewGuid() + ".mp3");
+                         File.Move(file.LocalFileName, Path.Combine(root, filename));
+                         sectionPath = @"http://" + urlHost + "/Sounds/" + filename;
+                     }
+                     return Request.CreateResponse(HttpStatusCode.OK, sectionPath);
+                 });
+             task.Wait();
 
-                 return task;
+             var result = task.Result;
+             return task;
          }
 
         // DELETE api/Section/5

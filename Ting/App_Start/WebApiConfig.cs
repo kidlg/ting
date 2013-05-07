@@ -15,6 +15,12 @@ namespace Ting
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            //config.Routes.MapHttpRoute(
+            //name: "api",
+            //routeTemplate: "api/{controller}/{action}/{id}",
+            //defaults: new { id = RouteParameter.Optional }
+            //);
+
             //修改media-type格式化器，防止循环引用
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling =
@@ -22,6 +28,7 @@ namespace Ting
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
+            
 
         }
 

@@ -94,19 +94,14 @@ namespace Ting.Controllers
         [ApiParameterDoc("category", "分类实体")]
         public HttpResponseMessage PostCategory(Category category)
         {
-            if (ModelState.IsValid)
-            {
+        
                 db.Categories.Add(category);
                 db.SaveChanges();
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, category);
                 response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = category.Id }));
                 return response;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
+          
         }
 
         // DELETE api/Category/5

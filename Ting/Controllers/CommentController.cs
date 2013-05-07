@@ -93,19 +93,14 @@ namespace Ting.Controllers
         [ApiParameterDoc("category", "评论实体")]
         public HttpResponseMessage PostComment(Comment comment)
         {
-            if (ModelState.IsValid)
-            {
+   
                 db.Comments.Add(comment);
                 db.SaveChanges();
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, comment);
                 response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = comment.Id }));
                 return response;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
+     
         }
 
         // DELETE api/Comment/5
