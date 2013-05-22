@@ -9,7 +9,7 @@ using System.Web.Routing;
 using Ting.Models;
 using System.Web.Http.Description;
 using Ting.Common;
-
+using log4net;
 namespace Ting
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -17,6 +17,8 @@ namespace Ting
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static ILog logger = log4net.LogManager.GetLogger(typeof(MvcApplication));
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -35,6 +37,33 @@ namespace Ting
             GlobalConfiguration.Configuration.Services.Replace(
     typeof(IDocumentationProvider), new DocProvider());
 
+            //读取lognet配置
+            log4net.Config.XmlConfigurator.Configure();
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Server.GetLastError() is HttpException)
+                {
+                    var httpExp = Server.GetLastError() as HttpException;
+                    if (httpExp != null)
+                    {
+                        if (httpExp.GetHttpCode() == 404)
+                        {
+                            return;
+                        }
+                    }
+                }
+
+                Exception objExp = Server.GetLastError();
+                if (objExp != null)
+                {
+                    logger.Error(objExp);
+                }
+            }
+            catch { }
         }
     }
 }

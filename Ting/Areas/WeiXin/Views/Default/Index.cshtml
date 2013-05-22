@@ -1,0 +1,11 @@
+﻿@{
+    var r = ViewBag.Result;
+}
+<xml>
+ <ToUserName><![CDATA[@Html.Raw(r.ToUserName)]]></ToUserName>
+ <FromUserName><![CDATA[@Html.Raw(r.FromUserName)]]></FromUserName>
+ <CreateTime>@Html.Raw(r.CreateTime)</CreateTime>
+ <MsgType><![CDATA[@Html.Raw(r.MsgType)]]></MsgType>
+ <Content><![CDATA[@Html.Raw(r.Content)]]></Content>
+ <FuncFlag>@Html.Raw(r.FuncFlag)</FuncFlag>
+ </xml>
