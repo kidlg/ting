@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<list>
+  <!--学习-->
+  <item key="lerning"><![CDATA[我已经学会了，我果然是天才哈哈哈，你可以问我试试]]></item>
+  <!--已经知道-->
+  <item key="known"><![CDATA[这个我已经知道了，你以为我是谁？我是天才哈哈哈。不信回复【{0}】试试]]></item>
+  <!--帮助-->
+  <item key="help"><![CDATA[使用 【#问题+答案】的方式可以教我这个天才学习（比如【#你是谁+我是天才】)]]></item>
+  <!--错误命令-->
+  <item key="error"><![CDATA[你在说什么我不要听不要听]]></item>
+  <!--关注-->
+  <item key="subscribe"><![CDATA[“连你都关注我了，我果然是天才哈哈哈哈”（你可以点击右上角按钮\"查看历史消息\"来查看往期动漫推荐）]]></item>
+  <!--发送的不是文本-->
+  <item key="nottext"><![CDATA[虽然我是天才，但是我也只能看懂文字]]></item>
+  <!--
+  <item key=""><![CDATA[]]></item>-->
+</list>

@@ -145,6 +145,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\WeiXin\Bl\AutoReplyBl.cs" />
     <Compile Include="Areas\WeiXin\Controllers\DefaultController.cs" />
     <Compile Include="Areas\WeiXin\Models\Answer.cs" />
     <Compile Include="Areas\WeiXin\Models\Mapping\AnswerMap.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\xml\autoReply.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\TestClient.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
@@ -273,7 +275,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\WeiXin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace Ting.Areas.WeiXin.Controllers
     public class DefaultController : Controller
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(DefaultController));
-        const string Token = "kidlg"; //你的token
+        const string Token = "kidlg"; //token
         private WeixinRobotContext db = new WeixinRobotContext();
         // GET: /WeiXin/Default/
         public ActionResult Viladate(string signature, string timestamp, string nonce, string echostr)
@@ -22,27 +22,36 @@ namespace Ting.Areas.WeiXin.Controllers
            
             return View();
         }
+
+        public string Test()
+        {
+            string path =  Request.PhysicalApplicationPath;
+            Bl.AutoReplyBl.GetAutoReplyDic(path);
+            return "1";
+        }
         [HttpPost]
         public ActionResult Index()
         {
             try
             {
-                System.IO.Stream s = Request.InputStream;
+                var s = Request.InputStream;
                 XElement xe = XElement.Load(s);
                 var text = Weixin.XMLHelper.ConvertToTextMsg(xe);
                 var result = new Weixin.Model.TextMsg();
                 result.FromUserName = text.ToUserName;
                 result.ToUserName = text.FromUserName;
-                result.CreateTime = 111111111;
+                result.CreateTime = DateTime.Now.Ticks;
                 result.FuncFlag = "1";
                 result.MsgType = "text";
                 /**************
                  * 这里的result要做成读取配置或者数据库的部分，方便经常更改回复的信息
                  * **************/
+                var dicts = Bl.AutoReplyBl.GetAutoReplyDic(Request.PhysicalApplicationPath);
                 #region ==== 消息 ====
                 if (text.MsgType == "text")
                 {
                     string content = text.Content.Trim();
+                    logger.Info(content);
                     if (content.StartsWith("#"))
                     {
                         //这个是命令
@@ -75,23 +84,23 @@ namespace Ting.Areas.WeiXin.Controllers
                                 };
                                 db.Answers.Add(a);
                                 db.SaveChanges();
-                                result.Content = "我已经学会了，我果然是天才哈哈哈";
+                                result.Content = dicts["lerning"];
                             }
                             else
                             {
-                                result.Content = string.Format("这个我已经知道了，你以为我是谁？我是天才哈哈哈。不信回复【{0}】试试",aStr);
+                                result.Content = string.Format(dicts["known"], aStr);
                             }
                         }
                         else
                         {
                             //命令错误
-                            result.Content = "你在说什么我不要听不要听";
+                            result.Content = dicts["error"];
                         }
 
                     }
                     else if (content == "?" && content == "？")
                     {
-                        result.Content = "使用 【#问题+答案】的方式可以教我这个天才学习（比如【#你是谁+我是天才】)";
+                        result.Content = dicts["help"];
                     }
                     else
                     {
@@ -123,14 +132,14 @@ namespace Ting.Areas.WeiXin.Controllers
                     if (text.Event == "subscribe")
                     {
                         //订阅
-                        result.Content = "“连你都关注我了，我果然是天才哈哈哈哈”（你可以点击右上角按钮\"查看历史消息\"来查看往期动漫推荐）";
+                        result.Content = dicts["subscribe"];
                     }
                 }
                 #endregion
                 else
                 {
                     //发送的不是文本
-                    result.Content = "虽然我是天才，但是我也只能看懂文字";
+                    result.Content =dicts["nottext"];
                 }
                 ViewBag.Result = result;
             }
@@ -139,7 +148,7 @@ namespace Ting.Areas.WeiXin.Controllers
                 logger.Error(ex.Message);
                 throw;
             }
-           
+
             return View();
         }
 

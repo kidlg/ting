@@ -47,6 +47,16 @@ namespace Ting.Controllers
             return dto;
         }
 
+        [ApiDoc("根据关键词搜索作品列表（分页）")]
+        [ApiParameterDoc("keyword", "关键词")]
+        public CommonModelDTO<Work> GetWorkByUserId(string keyword, int pagesize = 10, int pageindex = 1)
+        {
+            int count = db.Works.Count();
+            var list = db.Works.Where(x=>x.Name.Contains(keyword)||x.Breif.Contains(keyword)).OrderBy(x => x.Id).Skip((pageindex - 1) * pagesize).Take(pagesize).ToList();
+            var dto = new CommonModelDTO<Work>(list, count, pagesize, pageindex);
+            return dto;
+        }
+
         [ApiDoc("根据分类获取作品列表（分页）")]
         [ApiParameterDoc("cateid", "分类ID")]
         [HttpGet]
