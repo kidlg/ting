@@ -28,10 +28,7 @@ namespace Ting.Areas.WeiXin.Bl
                 dic.Add(item.Attribute("key").Value, item.Value);
             }
 
-
             return dic;
         }
-
-        
     }
 }

@@ -51,7 +51,6 @@ namespace Ting.Areas.WeiXin.Controllers
                 if (text.MsgType == "text")
                 {
                     string content = text.Content.Trim();
-                    logger.Info(content);
                     if (content.StartsWith("#"))
                     {
                         //这个是命令
@@ -98,7 +97,7 @@ namespace Ting.Areas.WeiXin.Controllers
                         }
 
                     }
-                    else if (content == "?" && content == "？")
+                    else if (content == "?" || content == "？")
                     {
                         result.Content = dicts["help"];
                     }

@@ -175,7 +175,6 @@
     <Compile Include="Models\TingContextInitializer.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Work.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\xml\autoReply.xml" />
@@ -276,6 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\WeiXin\Views\Shared\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
