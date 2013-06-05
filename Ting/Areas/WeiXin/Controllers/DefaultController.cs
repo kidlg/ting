@@ -51,10 +51,10 @@ namespace Ting.Areas.WeiXin.Controllers
                 if (text.MsgType == "text")
                 {
                     string content = text.Content.Trim();
-                    if (content.StartsWith("#"))
+                    if (content.StartsWith("@"))
                     {
                         //这个是命令
-                        var strs = content.Substring(1).Split('+');
+                        var strs = content.Substring(1).Split('&');
                         if (strs.Length == 2 && !string.IsNullOrEmpty(strs[0]) && !string.IsNullOrEmpty(strs[1]))
                         {
                             var qStr = strs[0];
@@ -87,7 +87,7 @@ namespace Ting.Areas.WeiXin.Controllers
                             }
                             else
                             {
-                                result.Content = string.Format(dicts["known"], aStr);
+                                result.Content = string.Format(dicts["known"], qStr);
                             }
                         }
                         else
@@ -144,7 +144,7 @@ namespace Ting.Areas.WeiXin.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
+                logger.Error(ex);
                 throw;
             }
 
