@@ -54,7 +54,7 @@ namespace Ting.Areas.WeiXin.Controllers
                     if (content.StartsWith("@"))
                     {
                         //这个是命令
-                        var strs = content.Substring(1).Split('&');
+                        var strs = content.Substring(1).Split('&','＆');
                         if (strs.Length == 2 && !string.IsNullOrEmpty(strs[0]) && !string.IsNullOrEmpty(strs[1]))
                         {
                             var qStr = strs[0];
